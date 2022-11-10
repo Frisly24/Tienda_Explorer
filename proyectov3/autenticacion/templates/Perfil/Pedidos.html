@@ -1,0 +1,104 @@
+
+{% extends "ProyectoWebApp/base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+        <!-- Header-->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-4">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">EXPLORER</h1>
+
+            </div>
+        </div>
+    </header>
+
+
+    <br>
+    <br>
+
+	
+	<div class=" col text-center">
+		<h1 style="text-align: center;">Compras</h1>
+	</div>
+	        <!--================Cart Area =================-->
+            
+			<section class="cart_area">
+				<div class="container">
+					<div class="cart_inner">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">No. de Factura</th>
+										<th scope="col">Producto</th>
+										<th scope="col">Cantidad</th>
+										<th scope="col">Fecha de compra</th>
+										<th scope="col">Estado</th>
+									</tr>
+								</thead>
+								<tbody>                                
+	
+										{% for articulos_comprados in articulos_comprados %}
+											{% if articulos_comprados.user_id == user.id%}
+											<!--================Inicio Producto Individual =================-->
+											<tr>
+												<td>
+													<h6>{{articulos_comprados.pedido_id}}</h6>	
+												</td>
+
+												<td>
+													{% for listado_todos_productos in listado_todos_productos %}
+														{% if articulos_comprados.producto_id == listado_todos_productos.id%}
+														<h6>{{listado_todos_productos.name}}</h6>
+														{% endif %}
+													{% endfor %}
+												</td>
+
+												<td>
+													<h6>{{articulos_comprados.cantidad}}</h6>
+												</td>
+
+												<td>
+													<h6>{{articulos_comprados.created_at.date}}</h6>
+												</td>
+
+												<td>
+													{% for pedidos_comprados in pedidos_comprados %}
+														{% if pedidos_comprados.id == articulos_comprados.pedido_id %}
+															{% if pedidos_comprados.entregado is True %}
+																<h6>Entregado</h6>
+															{% else %}
+																<h6>En camino</h6>
+															{% endif %}
+														{% endif %}
+													{% endfor %}
+												</td>
+
+											</tr>
+											<!--================Fin Producto Individual =================-->
+											{% endif %}
+										{% endfor %}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</section>
+
+	<div class=" col text-center">
+		<a class="btn btn-outline-dark mt-auto" href="{% url 'perfil_pdf'%}" >PDF</a>
+		
+        <!-- Falta la dirección al Perfil PDF--> 
+	</div>
+			<!--================End Cart Area =================-->
+
+    <section class="projects-section bg-white" id="projects">
+ 
+    </section>
+
+{% endblock %}

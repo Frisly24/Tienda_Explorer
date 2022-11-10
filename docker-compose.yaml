@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:12.12
+    environment:
+      - POSTGRES_DB=Zapateria
+      - POSTGRES_USER=adminzap
+      - POSTGRES_PASSWORD=postsql22zap 
+    ports:
+      - 5432
+    volumes: 
+      - ./postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin4_container_docker
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tiendaexplorer2022@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postsql22zap 
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    links:
+      - db:db
+
+  django_app: 
+    build: .
+    environment:
+      - DB_HOST=db
+      - DB_NAME=Zapateria
+      - DB_USER=adminzap
+      - DB_PASSWORD=postsql22zap 
+    volumes:
+      - .:/code
+      - static:/code/proyectov3/static/
+      - static:/code/proyectov3/media/
+    depends_on: 
+      - db
+
+  nginx:
+    image: nginx:1.20
+    ports:
+      - 8000:80
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static:/code/proyectov3/static/
+      - static:/code/proyectov3/media/
+    depends_on:
+      - django_app
+
+
+volumes:
+  .:
+  postgres_data:
+  static:
+  media:
+  perfil:

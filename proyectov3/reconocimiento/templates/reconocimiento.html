@@ -1,0 +1,26 @@
+{% extends "ProyectoWebApp/base.html"%}
+
+{% load static %}
+{% block content %}
+    <!-- Header-->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-4">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">EXPLORER</h1>
+            </div>
+        </div>
+    </header>
+
+	<br/><br/><br/>
+
+	<!--================Contact Area =================-->
+	<section class="contact_area section_gap_bottom">
+        <div class=" col text-center">
+            <h1 style="text-align: center;">Reconocimiento Facial</h1>
+            <a class="primary-btn center" href="{% url 'perfil_pdf'%}">Completar Registro</a>
+        </div>
+	</section>
+	<!--================Contact Area =================-->
+	<br/><br/><br/>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
+<body class="Bodyss">
+
+    <table style="max-width: 1000px; padding:10px; margin:0 auto; border-collapse: collapse;">
+
+        <tr>
+            <td style="padding: 0;">
+                <img style="padding: 0; display:block" src="https://i.postimg.cc/8cxGNtb1/BAN-1.png" width="100%" class="img-fluid" alt="Responsive image">
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #ffffff">
+                <div style="color: #0069ab; margin:4% 10% 2%; text-align: justify; font-family: sans-serif">
+                    <h2 style="color: #009dbf; margin: 0 0 7px">Detalles de Compra</h2>
+                    <p class="lead">
+                        Hola {{nombreusuario}}.<br/>
+                        A continuación se adjunta el número de pedido y los artículos de tu compra:<br/>
+                        <br/>
+                        <strong>No. de Factura: </strong>{{pedido.id}}<br/>
+                        <br/>
+                        <strong>Artículos:</strong>
+                        <br/>
+                        {% for lineas_pedido in lineas_pedido %}
+                            {{lineas_pedido.cantidad}}                            
+                            &nbsp;
+                            x
+                            &nbsp;
+                            {{lineas_pedido.producto}}
+                            <br/>
+                        {% endfor %}
+                    </p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0;">
+                <img style="padding: 0; display:block" src="https://i.postimg.cc/4NhZBRJn/BAN-2.png" width="100%" class="img-fluid" alt="Responsive image">
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+
+</html>

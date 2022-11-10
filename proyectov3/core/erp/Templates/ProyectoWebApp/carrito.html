@@ -1,0 +1,216 @@
+{% extends "ProyectoWebApp/base.html"%}
+
+{% load static %}
+{% block content %}
+
+
+    {% if request.user.is_authenticated %}
+
+        <!-- Header-->
+        <header class="bg-dark py-1">
+            <div class="container px-4 px-lg-5 my-4">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">EXPLORER</h1>
+
+                </div>
+            </div>
+        </header>
+
+        <header class="bg-white py-1">
+            <div class="container px-4 px-lg-5 my-5">
+
+            </div>
+        </header>
+
+
+
+
+
+
+        <!--================Cart Area =================-->
+
+
+        <section class="cart_area">
+            <div class="container">
+                <div class="cart_inner">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Precio unitario</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Subotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+
+                                {% if request.session.carro.items %}
+                                    {% for key, value in request.session.carro.items %}
+
+                                    <!--================Inicio Producto Individual =================-->
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                
+                                                    <img src="{{value.imagen}}" alt="" style="width: 75px; ">
+                                                
+                                                
+                                                    {{value.nombre}}
+                                                
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <h6>Q{{value.precio }}</h6>
+                                        </td>
+
+                                        <td>
+                                            <a>{{value.cantidad}}<a>
+                                            
+                                            <a href="{%url 'carro:agregar' value.producto_id%}" class="btn btn-sxm btn-outline-primary py-0" >  <i class='fa fa-plus'></i></a>                                            
+                                                
+                                            {% if value.cantidad > 1%}            
+                                                <a href="{%url 'carro:restar' value.producto_id%}" class="btn btn-sxm btn-outline-primary py-0">  <i class='fa fa-minus'></i></a>                                            
+                                            {% else %}                                                                                            
+                                                <button type="button" class="btn btn-sxm btn-outline-primary py-0" data-bs-toggle="modal" data-bs-target="#exampleModal"> <i class='fa fa-minus'></i> </button>
+                                            {%endif%}
+        
+                                        </td>
+
+                                        <td>
+                                            <h6>Q{{value.subtotal}}</h6>
+                                        </td>
+                                    </tr>
+
+                                    <!--================Fin Producto Individual =================-->
+                                    
+                                    <!--================    MODAL =================-->
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Confimarción de eliminación</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    
+                                                    <div class="modal-body">
+                                                        ¿Ésta seguro de eliminar este producto de su carrito?
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                                        <form action="{%url 'carro:restar' value.producto_id%}">                                                        
+                                                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                        </form>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>                                        
+
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="alert alert-danger text-center">
+                                                Sin productos en el carrito
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+
+
+                                <tr>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <h6>Total</h6>
+                                    </td>
+
+                                    <td>
+                                        <h6>Q{{importe_total_carro}}</h6> 
+                                    </td>
+                                </tr>
+                                
+                                <tr class="shipping_area">
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <h6>Envio</h6>
+                                    </td>
+
+                                    <td>
+                                        <div class="shipping_box">
+                                            <h6>Gratis</h6>
+                                       
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="out_button_area">
+                                    <td>  
+                                       
+                                       <div class="text-left">
+                                            <a class="btn btn-outline-dark mt-auto" href= "{% url 'Tienda' %}" >Tienda</a>                                                                                 
+                                       </div>                                    
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <div class="text-center" style="float: right;">
+                                            <a class="btn btn-outline-dark mt-auto" href="{% url 'carro:limpiar' %}" > <i class='fa fa-refresh'></i> Eliminar </a>                                                                                
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="text-right" style="float: right;">
+                                                                             
+                                            {% if request.session.carro.items %}                                            
+                                                <a class="btn btn-outline-dark mt-auto" href="{% url 'Checkout' %}" >Pagar</a>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================End Cart Area =================-->
+    
+        <section class="projects-section bg-white" id="projects">
+ 
+        </section>
+
+
+
+
+    {% else %}
+        <br></br>
+        <div class="alert alert-danger text-center">Debe iniciar sesión</div>
+        <br></br>
+    {% endif %}
+
+     <br>
+
+
+{% endblock %}
